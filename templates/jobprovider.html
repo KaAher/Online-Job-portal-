@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #90dffe, #38a3d1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            color: white;
+        }
+        form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            color: black;
+        }
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #2185d0;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #1a73c1;
+        }
+        #message {
+            margin-top: 15px;
+            color: #2185d0;
+            font-weight: bold;
+            text-align: center;
+        }
+        .search-jobs {
+            background-color: white;
+            color: #2185d0;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .search-jobs:hover {
+            background-color: #1a73c1;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Post a Job</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="company_name" placeholder="Company Name" required>
+        <input type="text" name="job_role" placeholder="Job Role" required>
+        <input type="number" name="salary" placeholder="Salary" required>
+        <textarea name="description" placeholder="Enter description of role" required></textarea>
+        <button type="submit" onclick="submitted()">Submit</button>
+        <p id="message"></p>
+    </form>
+    <button onclick="window.location.href='{% url 'notification' %}'">Go to Notifications</button>
+
+
+    
+
+    <script>
+        function submitted() {
+            document.getElementById("message").innerText = "You have successfully submitted the application!";
+        }
+    </script>
+</body>
+</html>

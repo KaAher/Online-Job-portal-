@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <style>body {
+        font-family: Arial, sans-serif;
+        background-color: #fff3e0;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: #ff9800;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+        text-align: center;
+        color: #fff;
+    }
+    
+    .notification-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    .notification-item {
+        background: #fff;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 5px;
+    }
+    
+    .notification-item strong {
+        color: #ff5722;
+    }
+    
+    .notification-item a {
+        color: #d84315;
+        font-weight: bold;
+    }
+    
+    .no-notifications {
+        text-align: center;
+        font-weight: bold;
+        color: #ff5722;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Job Applications</h1>
+        <form method="get">
+            {% if apps %}
+                <ul class="notification-list">
+                    {% for app in apps %}
+                        <li class="notification-item">
+                            <strong>{{ app.name }}</strong> applied for <em>{{ app.role }}</em> at {{ app.company_name }}.
+                            <p>Email: {{ app.email }}</p>
+                            {% if app.resume %}
+                                <p>Resume: <a href="{{ app.resume.url }}" target="_blank">Download/View</a></p>
+                            {% endif %}
+                            <p>City: {{ app.city }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-notifications">No notifications available.</p>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>

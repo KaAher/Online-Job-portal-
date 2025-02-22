@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Job Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #fef4e8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .main-container {
+            background: white;
+            width: 60%;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+            color: #d98324;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: #ff9800;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn:hover {
+            background: #e68900;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h1>Welcome to the Online Job Portal</h1>
+        <p>Find your dream job or hire the best employees with ease.</p>
+        <div class="btn-container">
+            <a href="{% url 'login' %}" class="btn">Job Seeker</a>
+            <a href="{% url 'joblogin' %}" class="btn">Need Employees</a>
+        </div>
+    </div>
+</body>
+</html>
