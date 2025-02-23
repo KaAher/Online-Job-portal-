@@ -3,78 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications</title>
-    <style>body {
-        font-family: Arial, sans-serif;
-        background-color: #fff3e0;
-        color: #333;
-        margin: 0;
-        padding: 20px;
-    }
-    
-    .container {
-        max-width: 600px;
-        margin: auto;
-        background: #ff9800;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    h1 {
-        text-align: center;
-        color: #fff;
-    }
-    
-    .notification-list {
-        list-style-type: none;
-        padding: 0;
-    }
-    
-    .notification-item {
-        background: #fff;
-        margin: 10px 0;
-        padding: 15px;
-        border-radius: 5px;
-    }
-    
-    .notification-item strong {
-        color: #ff5722;
-    }
-    
-    .notification-item a {
-        color: #d84315;
-        font-weight: bold;
-    }
-    
-    .no-notifications {
-        text-align: center;
-        font-weight: bold;
-        color: #ff5722;
-    }
+    <title>Job Applications</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fc4a1a;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .grid-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+        }
+
+        .resume-btn {
+            background: #fc4a1a;
+            color: #333;
+            padding: 8px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Job Applications</h1>
-        <form method="get">
-            {% if apps %}
-                <ul class="notification-list">
-                    {% for app in apps %}
-                        <li class="notification-item">
-                            <strong>{{ app.name }}</strong> applied for <em>{{ app.role }}</em> at {{ app.company_name }}.
-                            <p>Email: {{ app.email }}</p>
-                            {% if app.resume %}
-                                <p>Resume: <a href="{{ app.resume.url }}" target="_blank">Download/View</a></p>
-                            {% endif %}
-                            <p>City: {{ app.city }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="no-notifications">No notifications available.</p>
-            {% endif %}
-        </form>
+        {% if apps %}
+            <div class="grid-container">
+                {% for app in apps %}
+                    <div class="grid-item">
+                        <h3>{{ app.name }} ({{ app.role }})</h3>
+                        <p><strong>Company:</strong> {{ app.company_name }}</p>
+                        <p><strong>Email:</strong> {{ app.email }}</p>
+                        <p><strong>City:</strong> {{ app.city }}</p>
+                        {% if app.resume %}
+                            <a href="{{ app.resume.url }}" class="resume-btn" target="_blank">View Resume</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="text-align:center; font-weight:bold;">No applications yet.</p>
+        {% endif %}
     </div>
 </body>
 </html>

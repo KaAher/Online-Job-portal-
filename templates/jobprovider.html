@@ -3,89 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post a Job</title>
+    <title>Job Portal</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #90dffe, #38a3d1);
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { display: flex; height: 100vh; background: #fef4e8; }
+        .sidebar {
+            width: 250px;
+            background: #ff9800;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .sidebar a:hover { background: white; color: #ff9800; }
+        .main-content {
+            flex: 1;
+            padding: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 50px;
-            color: white;
         }
-        form {
-            background-color: white;
+        .section {
+            background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            color: black;
+            width: 60%;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
-        input, textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #2185d0;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #1a73c1;
-        }
-        #message {
-            margin-top: 15px;
-            color: #2185d0;
-            font-weight: bold;
-            text-align: center;
-        }
-        .search-jobs {
-            background-color: white;
-            color: #2185d0;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: 0.3s;
-            margin-top: 20px;
-        }
-        .search-jobs:hover {
-            background-color: #1a73c1;
-            color: white;
-        }
+        h2 { color: #d98324; text-align: center; }
+        input, textarea, button { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .btn { background: #ff9800; color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #e68900; }
     </style>
 </head>
 <body>
-    <h1>Post a Job</h1>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="company_name" placeholder="Company Name" required>
-        <input type="text" name="job_role" placeholder="Job Role" required>
-        <input type="number" name="salary" placeholder="Salary" required>
-        <textarea name="description" placeholder="Enter description of role" required></textarea>
-        <button type="submit" onclick="submitted()">Submit</button>
-        <p id="message"></p>
-    </form>
-    <button onclick="window.location.href='{% url 'notification' %}'">Go to Notifications</button>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <a href="#">Post a Job</a>
+        <a href="{% url 'notification' %}">Notifications</a>
+    </div>
 
-
-    
-
+    <div class="main-content">
+        <div class="section">
+            <h2>Post a Job</h2>
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="company_name" placeholder="Company Name" required>
+                <input type="text" name="job_role" placeholder="Job Role" required>
+                <input type="number" name="salary" placeholder="Salary" required>
+                <input type="text" name="email" placeholder="email" required>
+                <textarea name="description" placeholder="Enter job description" required></textarea>
+                <button type="submit" class="btn" onclick="submitted()">Submit</button>
+            </form>
+        </div>
+    </div>
     <script>
-        function submitted() {
-            document.getElementById("message").innerText = "You have successfully submitted the application!";
+        function submitted()
+        {
+            alert('you have succesfully posted the job')
         }
     </script>
 </body>

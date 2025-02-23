@@ -23,9 +23,8 @@ def jobseeker(request):
         resume = request.FILES.get("resume")
         
         Apply.objects.create(company_name=company_name,name=name,email=email,city=city,role=role,resume=resume)
-
-    
         send_confirmation_email(email, role)
+        return redirect('jobpage')
 
     return render(request, 'jobseeker.html')
 
@@ -57,23 +56,35 @@ def jobprovider(request):
         job_role = request.POST.get('job_role')
         salary = request.POST.get('salary')
         description = request.POST.get('description')
+        email = request.POST.get('email')
+        Jobs.objects.create(company_name=company_name,email=email,job_role=job_role, salary=salary, description=description)
         
-        Jobs.objects.create(company_name=company_name, job_role=job_role, salary=salary, description=description)
-        return redirect('jobpage')
     return render(request, 'jobprovider.html')
 
-
 def notification(request):
-    if request.method=='GET':
-        email = request.session.get("email", 'Guest')
+    if request.method == 'GET':
+        email = request.session.get("email")  
+        print("Session Email:", email)  
+
+        apps = []  
+
         if email:
-            apps=Apply.objects.filter(email__icontains=email)
-        else:
-            print("no any applications")
-        return render(request,'notification.html',{'apps':apps})
-    
+            jobs = Jobs.objects.filter(email=email)  
+            
+            if jobs.exists(): 
+                company_names = jobs.values_list('company_name', flat=True) 
+                print("Company Names Found:", list(company_names)) 
 
+                apps = Apply.objects.filter(company_name__in=company_names)  
+               
 
+                if not apps:
+                    print("No applications found for these companies.")
+
+            else:
+                print("No job found for this email.")
+
+        return render(request, 'notification.html', {'apps': apps})
 
 
 def send_confirmation_email(jobseeker_email, job_title):

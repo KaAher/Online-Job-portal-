@@ -121,12 +121,12 @@
                 <div class="job-card">
                     <strong>{{ job.company_name }}</strong> | {{ job.job_role }} | ₹{{ job.salary }}<br>
                     <p><b>Job Description:</b> {{ job.description }}</p>
-                    <p><b>Responsibilities:</b> {{ job.responsibilities }}</p>
-                    <p><b>Skills Required:</b> {{ job.skills }}</p>
                     <form method="post">
                         {% csrf_token %}
-                        <a href="{% url 'jobseeker' %}" class="apply-btn">Apply</a>
+                        <input type="hidden" name="company_name" value="{{ job.company_name }}">
+                        <button type="submit" class="apply-btn">Apply</button>
                     </form>
+                    
                 </div>
             {% endfor %}
         </div>

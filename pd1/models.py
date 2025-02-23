@@ -4,6 +4,7 @@ from django.db import models
 class Jobs(models.Model):
     company_name=models.CharField(max_length=500)
     job_role=models.CharField(max_length=200)
+    email=models.CharField(max_length=200,default="default@email.com")
     salary=models.IntegerField()
     description=models.CharField(max_length=10000)
 
