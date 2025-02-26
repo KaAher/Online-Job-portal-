@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Jobs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #fef4e8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .main-container {
+            background: white;
+            width: 60%;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            font-size: 28px;
+            color: #d98324;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .job-card {
+            background: #fff7ee;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .job-card h2 {
+            color: #d98324;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        .job-card p {
+            font-size: 16px;
+            color: #333;
+        }
+        .btn-container {
+            margin-top: 15px;
+        }
+        .btn {
+            display: inline-block;
+            background: #ff9800;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn:hover {
+            background: #e68900;
+            transform: scale(1.05);
+        }
+        .message {
+            font-size: 18px;
+            color: #d9534f;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <h1>Manage Your Jobs</h1>
+
+        {% if apps %}
+            {% for app in apps %}
+            <div class="job-card">
+                <h2>{{ app.job_role }}</h2>
+                <p>Salary: ₹{{ app.salary }}</p>
+                <p>email: {{app.email}}</p>
+                <p>description : {{app.description}}</p>
+                <div class="btn-container">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="job_role" value="{{ app.job_role }}">
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="message">No jobs posted yet.</p>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

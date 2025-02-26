@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -20,7 +24,7 @@
             padding: 20px;
         }
         .form-container {
-            background: #fc4a1a;
+            background: white;
             padding: 3rem;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -61,8 +65,8 @@
         <h2>Login</h2>
         <form method="post">
             {% csrf_token %}
-            <input type="text" placeholder="Email" name="email" required>
-            <input type="password" placeholder="Password" name="password" required>
+            <input type="text" placeholder="Email" name="email" required >
+            <input type="password" placeholder="Password" name="password" required minlength="8">
             <button type="submit">Submit</button>
         </form>
     </div>

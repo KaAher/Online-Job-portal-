@@ -112,7 +112,7 @@
     <div class="container">
         <h2>Job Listings</h2>
         <form method="GET">
-            <input type="text" name="search" placeholder="Search by company name..." value="{{ query }}">
+            <input type="text" name="search" placeholder="Search by job role..." value="{{ query }}">
             <button type="submit">Search</button>
         </form>
 
@@ -120,7 +120,7 @@
             {% for job in jobs %}
                 <div class="job-card">
                     <strong>{{ job.company_name }}</strong> | {{ job.job_role }} | ₹{{ job.salary }}<br>
-                    <p><b>Job Description:</b> {{ job.description }}</p>
+                    <pre><b>Job Description:</b> {{ job.description }}</pre>
                     <form method="post">
                         {% csrf_token %}
                         <input type="hidden" name="company_name" value="{{ job.company_name }}">

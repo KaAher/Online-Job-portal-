@@ -2,7 +2,10 @@ from django.shortcuts import render, HttpResponse, redirect
 from .models import Jobs,User,Apply,Userjob
 from django.core.files.storage import default_storage
 from django.core.mail import send_mail
+from django.contrib import messages
 from django.conf import settings
+import smtplib
+import requests
 
 def first(request):
     return HttpResponse('hello world')
@@ -33,10 +36,18 @@ def login(request):
     if request.method=='POST':
         email=request.POST.get('email')
         password=request.POST.get('password')
-        User.objects.create(email=email,password=password)
-        return redirect('jobpage')
+        
+        if len(password)<6:
+            messages.error(request, "password should have more than 6 letters")
+            return render(request, 'login.html')
 
-    return render(request,'login.html')
+        else:
+            User.objects.create(email=email, password=password)
+            return redirect('jobpage')
+
+    return render(request,'login.html',)
+
+
 def joblogin(request):
     if request.method=='POST':
         email=request.POST.get('email')
@@ -95,16 +106,29 @@ def send_confirmation_email(jobseeker_email, job_title):
 
     send_mail(subject, message, email_from, recipient_list)
 
+def manage(request):
+    if request.method=='GET':
+        email = request.session.get("email")
+        print(email)
+        apps=Jobs.objects.filter(email=email)
+        
+        if apps:
+            print(apps)
+            return render(request, 'manage.html', {'apps': apps})  # Pass apps to the template
+        else:
+            return render(request, 'manage.html', {'message': "No jobs posted yet"})
+    if request.method == 'POST':
+        job_role = request.POST.get('job_role')  # Corrected from GET to POST
 
+        if job_role:
+            deleted_count, _ = Jobs.objects.filter(email=request.session.get("email"), job_role=job_role).delete()  
+            if deleted_count > 0:
+                print(f"Deleted {deleted_count} job(s) with role: {job_role}")
+            else:
+                print("No matching jobs found to delete.")
 
-
-def apply_for_job(request, company_name):
-    job = Jobs.objects.get(id=company_name)  
-    jobseeker_email = request.user.email  
-    send_confirmation_email(jobseeker_email, job.title)
-
-    return redirect('jobs_page')  
-
+    return redirect('manage') 
+    
 
 def jobpage(request):
     query=request.GET.get('search','')
@@ -122,4 +146,10 @@ def jobpage(request):
     return render(request, 'job_page.html', {'jobs': all_jobs ,'query':query})
 def succesful(request):
     return render(request,'succesful.html')
+
+import smtplib
+
+
+
+
 

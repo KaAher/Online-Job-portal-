@@ -61,8 +61,16 @@
         <h2>Login</h2>
         <form method="post">
             {% csrf_token %}
+            
             <input type="text" placeholder="Email" name="email" required>
+           
             <input type="password" placeholder="Password" name="password" required>
+
+            {% if messages %}
+            {% for m in messages %}
+                {{m}}
+            {% endfor %}
+            {% endif %}
             <button type="submit">Submit</button>
         </form>
     </div>

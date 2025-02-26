@@ -1,0 +1,21 @@
+# Ignore environment files  
+.env  
+
+# Ignore database dump files  
+*.sql  
+*.dump  
+
+# Ignore compiled Python files  
+__pycache__/  
+*.pyc  
+*.pyo  
+
+# Ignore VS Code settings (if using)  
+.vscode/  
+
+# Ignore system log files  
+*.log  
+
+# Ignore migrations cache (optional)  
+**/migrations/__pycache__/  
+kaveri/

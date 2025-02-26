@@ -29,8 +29,8 @@ urlpatterns = [
     path('login/',views.login,name='login'),
     path('joblogin/',views.joblogin,name='joblogin'),
     path('succesful/',views.succesful,name='succesful'),
-    path('notification/',views.notification,name='notification')
-    
+    path('notification/',views.notification,name='notification'),
+    path('manage/',views.manage,name='manage')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
