@@ -1,5 +1,7 @@
 # Ignore environment files  
 .env  
+ve/
+kaveri/
 
 # Ignore database dump files  
 *.sql  
