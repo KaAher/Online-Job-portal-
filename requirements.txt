@@ -5,3 +5,5 @@ dj-database-url
 whitenoise
 python-dotenv
 python-decouple
+requests
+pathlib
