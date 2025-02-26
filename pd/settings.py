@@ -34,7 +34,7 @@ EMAIL_HOST_PASSWORD = 'pazwkkfbqnugvlfd'  # Use an App Password instead of your 
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".onrender.com"]
 
@@ -91,7 +91,17 @@ import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(default=os.getenv("postgres://postgres:Kaveri%401605@localhost:5432/jobportal"))
 }
-
+if not DATABASES['default']:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',  # Change to match your DB
+            'NAME': 'jobportal',
+            'USER': 'postgres',
+            'PASSWORD': 'Kaveri%401605',
+            'HOST': 'localhost',
+            'PORT': '5432',  # Default PostgreSQL port
+        }
+    }
 
 
 # Password validation
