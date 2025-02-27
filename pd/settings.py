@@ -89,19 +89,8 @@ import os
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("postgres://postgres:Kaveri%401605@localhost:5432/jobportal"))
+    'default': dj_database_url.config(default=os.getenv("postgresql://jobportal_mk4q_user:AbRIwQiZUopyaS0KWSg8baDKCcFVFjGC@dpg-cuvv51ij1k6c738aet60-a/jobportal_mk4q"))
 }
-if not DATABASES['default']:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',  # Change to match your DB
-            'NAME': 'jobportal',
-            'USER': 'postgres',
-            'PASSWORD': 'Kaveri%401605',
-            'HOST': 'localhost',
-            'PORT': '5432',  # Default PostgreSQL port
-        }
-    }
 
 
 # Password validation
