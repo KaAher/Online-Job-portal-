@@ -30,7 +30,9 @@ urlpatterns = [
     path('joblogin/',views.joblogin,name='joblogin'),
     path('succesful/',views.succesful,name='succesful'),
     path('notification/',views.notification,name='notification'),
-    path('manage/',views.manage,name='manage')
+    path('manage/',views.manage,name='manage'),
+    path('applyed/',views.applyed,name='applyed'),
+    path('create_account',views.create_account,name='create_account')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

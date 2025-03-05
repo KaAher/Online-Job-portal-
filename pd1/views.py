@@ -1,11 +1,16 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Jobs,User,Apply,Userjob
+from .models import Jobs,User,Apply,Userjob,Account
 from django.core.files.storage import default_storage
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.conf import settings
 import smtplib
 import requests
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
+
 
 def first(request):
     return HttpResponse('hello world')
@@ -31,21 +36,77 @@ def jobseeker(request):
 
     return render(request, 'jobseeker.html')
 
+def create_account(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if Account.objects.filter(email=email).exists():
+            messages.error(request, "Account already exists")
+            return redirect('create_account')
+
+        if len(password) < 6:
+            messages.error(request, "Password should have more than 6 characters")
+            return redirect('create_account')
+
+        # Create user with hashed password
+        Account(username=username, email=email, password=password)
+        messages.success(request, "Account created! Please log in.")
+        return redirect('login')  # Redirect to login page after signup
+
+    return render(request, 'create_account.html')
+
+
 
 def login(request):
-    if request.method=='POST':
-        email=request.POST.get('email')
-        password=request.POST.get('password')
-        
-        if len(password)<6:
-            messages.error(request, "password should have more than 6 letters")
-            return render(request, 'login.html')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
+
+        account = Account.objects.filter(email=email).first()
+
+        if account:
+            if account.password == password:  # Ensure password verification
+                User.objects.create(email=email, password=password)
+                request.session['email'] = email
+                print('i am here')  # Debugging line
+                return redirect('jobpage')  # Redirect after successful login
+            else:
+                messages.error(request, "Invalid email or password")
+                return redirect('login')
         else:
-            User.objects.create(email=email, password=password)
-            return redirect('jobpage')
+            messages.error(request, "Account does not exist. Please create an account.")
+            return redirect('create_account')
 
-    return render(request,'login.html',)
+
+    return render(request, 'login.html')
+
+
+def applyed(request):
+    if request.method == 'GET':
+        email = request.session.get('email')
+        if not email:
+            print('No email_id')
+            return render(request, 'applyed.html', {'jobs': []})
+
+        apps = Apply.objects.filter(email=email)
+
+        if not apps.exists():
+            print('Not applied to any job yet')
+            return render(request, 'applyed.html', {'jobs': []})  
+        
+        jobs = []
+        for app in apps:
+            print(f"Searching jobs for: {app.company_name}, {app.role}")  
+            job = Jobs.objects.filter(company_name__icontains=app.company_name, job_role__icontains=app.role)
+            print(f"Found Jobs: {list(job)}")  
+            jobs.extend(job)  
+
+        return render(request, 'applyed.html', {'jobs': jobs})
+    
+    return render(request, 'applyed.html', {'jobs': []})
 
 
 def joblogin(request):

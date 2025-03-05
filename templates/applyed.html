@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Listings</title>
+    <title>Applied Jobs</title>
     <style>
         * {
             margin: 0;
@@ -35,28 +35,6 @@
             font-size: 24px;
             font-weight: bold;
         }
-        input {
-            padding: 12px;
-            width: 100%;
-            border: 2px solid #ffa726;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        button {
-            background: #ff9800;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        button:hover {
-            background: #e68900;
-            transform: scale(1.05);
-        }
         .job-list {
             display: flex;
             flex-direction: column;
@@ -87,56 +65,38 @@
             color: #555;
             margin: 5px 0;
         }
-        .apply-btn {
+        a {
+            text-decoration: none;
             background: #ff9800;
             color: white;
             text-align: center;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 6px;
-            margin-top: 10px;
             font-weight: bold;
             display: inline-block;
-            text-decoration: none;
-            width: 120px;
-            text-align: center;
+            margin-top: 10px;
         }
-        .apply-btn:hover {
+        a:hover {
             background: #e68900;
-        }
-        a {
-            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Job Listings</h2>
-        <form method="GET">
-            <input type="text" name="search" placeholder="Search by job role..." value="{{ query }}">
-            <button type="submit">Search</button>
-        </form>
-
+        <h2>Applied Jobs</h2>
         <div class="job-list">
-            {% for job in jobs %}
-                <div class="job-card">
-                    <strong>{{ job.company_name }}</strong> | {{ job.job_role }} | ₹{{ job.salary }}<br>
-                    <pre><b>Job Description:</b> {{ job.description }}</pre>
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="company_name" value="{{ job.company_name }}">
-                        <button type="submit" class="apply-btn">Apply</button>
-                    </form>
-                    
-                </div>
-            {% endfor %}
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="job-card">
+                        <strong>{{ job.company_name }}</strong> | {{ job.job_role }}<br>
+                        <p><b>Job Description:</b> {{ job.description }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No jobs found.</p>
+            {% endif %}
         </div>
-
-        <a href="{% url 'jobpage' %}">
-            <button>Back to Job Search</button>
-        </a>
-        <a href="{% url 'applyed' %}">
-            <button>applyed</button>
-        </a>
+        <a href="{% url 'jobpage' %}">Back to Job Search</a>
     </div>
 </body>
 </html>
