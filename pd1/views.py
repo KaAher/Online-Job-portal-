@@ -36,6 +36,12 @@ def jobseeker(request):
 
     return render(request, 'jobseeker.html')
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password, check_password
+from .models import Account  # Import your Account model
+
+
 def create_account(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -50,13 +56,12 @@ def create_account(request):
             messages.error(request, "Password should have more than 6 characters")
             return redirect('create_account')
 
-        # Create user with hashed password
-        Account(username=username, email=email, password=password)
+        # Save user with hashed password
+        Account.objects.create(username=username, email=email, password=make_password(password))
         messages.success(request, "Account created! Please log in.")
         return redirect('login')  # Redirect to login page after signup
 
     return render(request, 'create_account.html')
-
 
 
 def login(request):
@@ -64,22 +69,15 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-
         account = Account.objects.filter(email=email).first()
 
-        if account:
-            if account.password == password:  # Ensure password verification
-                User.objects.create(email=email, password=password)
-                request.session['email'] = email
-                print('i am here')  # Debugging line
-                return redirect('jobpage')  # Redirect after successful login
-            else:
-                messages.error(request, "Invalid email or password")
-                return redirect('login')
+        if account and check_password(password, account.password):
+            request.session['email'] = email  # Store session
+            print('i am here')  # Debugging line
+            return redirect('jobpage')  # Redirect after successful login
         else:
-            messages.error(request, "Account does not exist. Please create an account.")
-            return redirect('create_account')
-
+            messages.error(request, "Invalid email or password")
+            return redirect('login')
 
     return render(request, 'login.html')
 
