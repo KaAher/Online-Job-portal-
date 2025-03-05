@@ -69,7 +69,7 @@ def login(request):
         account = Account.objects.filter(email=email).first()
 
         if account :
-            if check_password(password, account.password) # Ensure password verification
+            if check_password(password, account.password): # Ensure password verification
                 User.objects.create(email=email, password=password)
                 request.session['email'] = email
                 print('i am here')  # Debugging line
