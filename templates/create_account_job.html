@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff9800, #d84315);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #d84315;
+            margin-bottom: 15px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            color: #d84315;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffa726;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .signup-btn {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .signup-btn:hover {
+            background: #e68900;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create an Account</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+            {% if messages %}
+            {% for m in messages %}
+                {{m}}
+            {% endfor %}
+            {% endif %}
+            <button type="submit" class="signup-btn">Sign Up</button>
+            
+        </form>
+    </div>
+</body>
+</html>

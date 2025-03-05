@@ -7,10 +7,19 @@ class Jobs(models.Model):
     email=models.CharField(max_length=200,default="default@email.com")
     salary=models.IntegerField()
     description=models.CharField(max_length=10000)
+
+
 class Account(models.Model):
     username=models.CharField(max_length=200)
     email=models.CharField(max_length=200,default="default@email.com")
     password=models.CharField(max_length=200)
+
+
+class Account_job(models.Model):
+    username=models.CharField(max_length=200)
+    email=models.CharField(max_length=200,default="default@email.com")
+    password=models.CharField(max_length=200)
+
 
 class User(models.Model):
     email=models.CharField(max_length=200,default="default@email.com")

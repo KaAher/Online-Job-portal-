@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Jobs,User,Apply,Userjob,Account
+from .models import Jobs,User,Apply,Userjob,Account,Account_job
 from django.core.files.storage import default_storage
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -114,11 +114,46 @@ def joblogin(request):
     if request.method=='POST':
         email=request.POST.get('email')
         password=request.POST.get('password')
-        Userjob.objects.create(email=email,password=password)
         
-        request.session['email'] = email
-        return redirect('jobprovider')
+
+        account = Account_job.objects.filter(email=email).first()
+
+        if account :
+            if check_password(password, account.password): # Ensure password verification
+                Userjob.objects.create(email=email,password=password)
+                request.session['email'] = email
+                
+                return redirect('jobprovider')  # Redirect after successful login
+            else:
+                messages.error(request, "Invalid email or password")
+                return redirect('joblogin')
+        else:
+            messages.error(request, "Account does not exist. Please create an account.")
+            return redirect('create_account_job')
+        
+        
     return render(request,'joblogin.html')
+
+def create_account_job(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if Account_job.objects.filter(email=email).exists():
+            messages.error(request, "Account already exists")
+            return redirect('create_account_job')
+
+        if len(password) < 6:
+            messages.error(request, "Password should have more than 6 characters")
+            return redirect('create_account_job')
+
+        # Create user with hashed password
+        Account_job.objects.create(username=username, email=email, password=make_password(password))
+        messages.success(request, "Account created! Please log in.")
+        return redirect('joblogin')   # Redirect to login page after signup
+
+    return render(request, 'create_account_job.html')
 
 
 from .models import Jobs

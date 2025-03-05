@@ -32,7 +32,8 @@ urlpatterns = [
     path('notification/',views.notification,name='notification'),
     path('manage/',views.manage,name='manage'),
     path('applyed/',views.applyed,name='applyed'),
-    path('create_account',views.create_account,name='create_account')
+    path('create_account/',views.create_account,name='create_account'),
+    path('create_account_job/',views.create_account_job,name='create_account_job')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
