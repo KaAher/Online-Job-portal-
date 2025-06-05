@@ -90,12 +90,11 @@ import os
 import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
-    }
+    'default': dj_database_url.parse(
+        "postgresql://jobportal_mk4q_user:AbRIwQiZUopyaS0KWSg8baDKCcFVFjGC@dpg-cuvv51ij1k6c738aet60-a.oregon-postgres.render.com/jobportal_mk4q?sslmode=require"
+    )
 }
-DATABASES['default'] = dj_database_url.parse("postgresql://jobportal_mk4q_user:AbRIwQiZUopyaS0KWSg8baDKCcFVFjGC@dpg-cuvv51ij1k6c738aet60-a.oregon-postgres.render.com/jobportal_mk4q")
+
 
 
 
